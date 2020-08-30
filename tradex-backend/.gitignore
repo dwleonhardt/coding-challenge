@@ -1,0 +1,12 @@
+.idea
+.vscode
+node_modules
+/src/*.js
+/src/*.js.map
+/src/*.js*
+*.d.ts
+yarn-*
+*tsbuildinfo
+.DS_Store
+.env
+/dist
