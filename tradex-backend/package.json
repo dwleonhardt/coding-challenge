@@ -2,11 +2,28 @@
   "name": "tradex-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "node_modules/.bin/tsc",
+    "tslint": "./node_modules/.bin/tslint modules/**/*.ts --exclude modules/**/*.d.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/main.js",
+    "start:dev": "ts-node src/main.ts"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "typescript": "3.6.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "prettier": "^1.17.0",
+    "ts-node": "~8.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC"
 }
+  
