@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import * as bodyParser from 'body-parser'
-import {getPolls, newPoll} from './db'
+import { getPolls, newPoll } from './db'
 import { loadConfig } from './config'
 import { allEntities } from './schema'
 import { NewPollRequest } from './types'
@@ -19,8 +19,9 @@ export async function initEndpoints(db: Connection): Promise<Router> {
   router.post('/poll', async (req: Request, res: Response) => {
     const { title } = req.body
     const pollRequest: NewPollRequest = { title }
-    const poll = await newPoll(db, pollRequest)
-    res.send(poll)
+    const query = await newPoll(db, pollRequest)
+    const { poll } = query.identifiers[0]
+    res.status(400).send(poll)
   })
 
   router.get('/polls', async (req: Request, res: Response) => {
@@ -28,5 +29,8 @@ export async function initEndpoints(db: Connection): Promise<Router> {
     res.send(polls)
   })
 
+  router.delete('/poll', async (req: Request, res: Response) => {
+
+  })
   return router
 }

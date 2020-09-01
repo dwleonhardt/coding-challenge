@@ -1,7 +1,6 @@
 import { loadConfig } from '../config'
 import { initializeDatabase } from '../db'
 import { allEntities } from '../schema'
-import * as path from 'path'
 import { loadDotEnv } from '../utility'
 
 async function main() {
