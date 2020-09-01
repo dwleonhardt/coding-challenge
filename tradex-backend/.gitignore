@@ -1,10 +1,10 @@
 .idea
 .vscode
 node_modules
-/src/*.js
-/src/*.js.map
-/src/*.js*
-/src/*.d.ts
+/src/**/*.js
+/src/**/*.js.map
+/src/**/*.js*
+/src/**/*.d.ts
 yarn-*
 *tsbuildinfo
 .DS_Store
