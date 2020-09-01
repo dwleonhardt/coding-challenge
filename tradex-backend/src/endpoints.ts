@@ -1,14 +1,13 @@
 import { Router, Request, Response } from 'express'
 import * as bodyParser from 'body-parser'
-import { initializeDatabase, newPoll } from './db'
+import {getPolls, newPoll} from './db'
 import { loadConfig } from './config'
 import { allEntities } from './schema'
 import { NewPollRequest } from './types'
+import { Connection } from 'typeorm'
 
-export async function initEndpoints(): Promise<Router> {
+export async function initEndpoints(db: Connection): Promise<Router> {
   const router = Router()
-  const config = { ...loadConfig(), entities: allEntities }
-  const db = await initializeDatabase(config)
 
   router.use(bodyParser.urlencoded({ extended: true }))
   router.use(bodyParser.json())
@@ -22,6 +21,11 @@ export async function initEndpoints(): Promise<Router> {
     const pollRequest: NewPollRequest = { title }
     const poll = await newPoll(db, pollRequest)
     res.send(poll)
+  })
+
+  router.get('/polls', async (req: Request, res: Response) => {
+    const polls = await getPolls(db)
+    res.send(polls)
   })
 
   return router

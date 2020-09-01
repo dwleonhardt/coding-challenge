@@ -1,9 +1,9 @@
 import { loadConfig } from '../config'
 import { allEntities } from '../schema'
-import { initializeDatabase, newPoll } from '../db'
+import { getPolls, initializeDatabase, newPoll } from '../db'
 import { describe, before } from 'mocha'
 import { assert } from 'chai'
-import { loadDotEnv } from '../scripts/init-db'
+import { loadDotEnv } from '../utility'
 import { Connection } from 'typeorm'
 
 describe('writing tests', function() {
@@ -12,14 +12,24 @@ describe('writing tests', function() {
     const env = loadDotEnv()
     const config = { ...loadConfig(env), entities: allEntities }
     db = await initializeDatabase(config)
-    await db.query(`DROP SCHEMA "public" CASCADE`)
-    await db.query(`CREATE SCHEMA "public"`)
-    await db.synchronize()
-    await db.close()
+  })
+  beforeEach(async function() {
+    const promises = allEntities.map(entity => {
+      const meta = db.getMetadata(entity)
+      return db.getRepository(entity).query(`TRUNCATE "${meta.tableName}" CASCADE`)
+    })
+    return Promise.all(promises)
   })
   it('can create a new poll entry', async function() {
-    const pollRequest = newPoll(db, { title: 'New Poll' })
-    console.log(pollRequest)
-    assert(true)
+    await newPoll(db, { title: 'New Poll' })
+    const polls = await getPolls(db)
+    assert.equal(polls.length, 1)
+    assert.equal(polls[0].title, 'New Poll')
+  })
+  it('can delete a poll entry', async function() {
+    await newPoll(db, { title: 'New Poll' })
+    const polls = await getPolls(db)
+    assert.equal(polls.length, 1)
+    assert.equal(polls[0].title, 'New Poll')
   })
 })

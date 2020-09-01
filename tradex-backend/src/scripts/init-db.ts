@@ -2,6 +2,7 @@ import { loadConfig } from '../config'
 import { initializeDatabase } from '../db'
 import { allEntities } from '../schema'
 import * as path from 'path'
+import { loadDotEnv } from '../utility'
 
 async function main() {
   const env = loadDotEnv()
@@ -13,10 +14,6 @@ async function main() {
   await db.close()
   /* tslint:disable-next-line */
   console.log('finished initializing database')
-}
-
-export function loadDotEnv() {
-  return require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }).parsed
 }
 
 main()

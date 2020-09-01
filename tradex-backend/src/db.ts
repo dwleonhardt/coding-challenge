@@ -1,7 +1,7 @@
 import { Connection, ConnectionOptions, createConnection } from 'typeorm'
 import { NewPollRequest, Poll } from './types'
-import {Polls} from "./schema";
-import {newUuid} from "./utility";
+import { Polls } from './schema'
+import { newUuid } from './utility'
 
 export function initializeDatabase(config: ConnectionOptions): Promise<Connection> {
   return createConnection(config)
@@ -13,4 +13,8 @@ export async function newPoll(db: Connection, requestData: NewPollRequest): Prom
     title: requestData.title,
   }
   return await db.getRepository(Polls).insert(formattedPoll)
+}
+
+export async function getPolls(db: Connection): Promise<any> {
+  return await db.getRepository(Polls).find()
 }
