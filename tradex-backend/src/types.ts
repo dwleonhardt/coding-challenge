@@ -31,8 +31,8 @@ export class DeletePollRequest {
 }
 
 export class VoteRequest {
-  @IsNumber()
-  itemId!: number
+  @IsUUID()
+  itemId!: string
 }
 
 export class ItemRequest {

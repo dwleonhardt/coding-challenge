@@ -12,7 +12,7 @@ export const Poll = (props) => {
         <Typography variant="h5" component="h2">
           {props.poll.title}
         </Typography>
-        {props.poll.items.map((i) => <Item item={i}/>)}
+        {props.poll.items.map((i) => <Item key={i.item} item={i} voteHandler={props.voteHandler}/>)}
       </CardContent>
     </Card>
   )
