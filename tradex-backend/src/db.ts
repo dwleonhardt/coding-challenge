@@ -16,7 +16,7 @@ export async function newPoll(db: Connection, requestData: NewPollRequest): Prom
   return query.identifiers[0].poll
 }
 
-export async function getPolls(db: Connection): Promise<any> {
+export async function getPolls(db: Connection): Promise<Poll[]> {
   return await db.getRepository(Polls).find()
 }
 
@@ -41,7 +41,7 @@ export async function newItem(db: Connection, requestData: NewItemRequest): Prom
   return query.identifiers[0].item
 }
 
-export async function getItemsByPollId(db: Connection, pollId: string): Promise<Item[] | undefined> {
+export async function getItemsByPollId(db: Connection, pollId: string): Promise<Item[]> {
   return await db.getRepository(Items).find({ where: { pollId } })
 }
 

@@ -39,3 +39,7 @@ export class ItemRequest {
   @IsUUID()
   pollId!: string
 }
+
+export interface FullPoll extends Poll {
+  items: Item[]
+}

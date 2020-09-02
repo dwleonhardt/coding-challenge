@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import * as bodyParser from 'body-parser'
 import { deletePoll, getItem, getItemsByPollId, getPolls, newItem, newPoll, updateItem } from './db'
-import { DeletePollRequest, ItemRequest, NewItemRequest, NewPollRequest, VoteRequest } from './types'
+import { DeletePollRequest, FullPoll, ItemRequest, NewItemRequest, NewPollRequest, Poll, VoteRequest} from './types'
 import { Connection } from 'typeorm'
 import { validateBody } from './utility'
 
@@ -21,7 +21,11 @@ export async function initEndpoints(db: Connection): Promise<Router> {
 
   router.get('/polls', async (req: Request, res: Response) => {
     const polls = await getPolls(db)
-    res.send(polls)
+    const formatPolls = await polls.map(async (p: Poll) => {
+      return await formatFullPoll(db, p)
+    })
+    const fullPolls = await Promise.all(formatPolls)
+    res.send(fullPolls)
   })
 
   router.get('/items', validateBody(ItemRequest), itemsRequestHandler(db))
@@ -58,4 +62,10 @@ export const voteRequestHandler = (db: Connection) => async (request: Request, r
 export const itemsRequestHandler = (db: Connection) => async (request: Request, res: Response) => {
   const query = await getItemsByPollId(db, request.body.pollId)
   res.send(query)
+}
+
+export async function formatFullPoll(db: Connection, p: Poll): Promise<FullPoll> {
+  const { poll, title } = p
+  const items = await getItemsByPollId(db, poll)
+  return { poll, title, items }
 }

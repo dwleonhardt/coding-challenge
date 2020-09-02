@@ -11,9 +11,6 @@ export const Poll = (props) => {
         <Typography variant="h5" component="h2">
           {props.poll.title}
         </Typography>
-        <Typography color="textSecondary" gutterBottom>
-          Test Text
-        </Typography>
       </CardContent>
     </Card>
   )
