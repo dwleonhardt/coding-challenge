@@ -33,7 +33,6 @@ export default class HomePage extends React.Component {
   }
 
   voteHandler(itemId) {
-    console.log('1:', this)
     fetch(`${URL}/vote`, {
       method: 'PATCH',
       headers: {
@@ -42,12 +41,11 @@ export default class HomePage extends React.Component {
       },
       body: JSON.stringify({ itemId })
     }).then(async res => {
-      console.log('2:', this)
-      const polls = await this.getPolls()
-      this.setState({
-        loading: false,
-        polls
-      })
+      // const polls = await this.getPolls()
+      // this.setState({
+      //   loading: false,
+      //   polls
+      // })
     });
   }
 
