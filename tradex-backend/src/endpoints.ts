@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import * as bodyParser from 'body-parser'
-import { deletePoll, getItemByPollId, getPolls, newItem, newPoll, updateItem} from './db'
-import { DeletePollRequest, NewItemRequest, NewPollRequest, VoteRequest} from './types'
+import { deletePoll, getItem, getItemsByPollId, getPolls, newItem, newPoll, updateItem } from './db'
+import { DeletePollRequest, ItemRequest, NewItemRequest, NewPollRequest, VoteRequest } from './types'
 import { Connection } from 'typeorm'
 import { validateBody } from './utility'
 
@@ -23,6 +23,8 @@ export async function initEndpoints(db: Connection): Promise<Router> {
     const polls = await getPolls(db)
     res.send(polls)
   })
+
+  router.get('/items', validateBody(ItemRequest), itemsRequestHandler(db))
 
   router.delete('/poll', validateBody(DeletePollRequest), deletePollHandler(db))
 
@@ -47,8 +49,13 @@ export const createItemHandler = (db: Connection) => async (request: Request, re
 }
 
 export const voteRequestHandler = (db: Connection) => async (request: Request, res: Response) => {
-  const items = await getItemByPollId(db, request.body.itemId)
+  const items = await getItem(db, request.body.itemId)
   const votes = items![0].votes + 1
   const query = updateItem(db, items![0].item, { votes })
+  res.send(query)
+}
+
+export const itemsRequestHandler = (db: Connection) => async (request: Request, res: Response) => {
+  const query = await getItemsByPollId(db, request.body.pollId)
   res.send(query)
 }

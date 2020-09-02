@@ -2,7 +2,8 @@ import { loadConfig } from '../config'
 import { allEntities } from '../schema'
 import {
   deletePoll,
-  getItemByPollId,
+  getItem,
+  getItemsByPollId,
   getPollById,
   getPolls,
   initializeDatabase,
@@ -39,22 +40,30 @@ describe('writing tests', function() {
     const pollId = await newPoll(db, { title: 'New Poll' })
     await deletePoll(db, pollId)
     const poll = await getPollById(db, pollId)
-    const items = await getItemByPollId(db, pollId)
+    const items = await getItem(db, pollId)
     assert.equal(poll!.length, 0)
     assert.equal(items!.length, 0)
   })
   it('can create an item entry', async function() {
     const pollId = await newPoll(db, { title: 'Item Poll' })
-    await newItem(db, { pollId, name: 'test item' })
-    const items = await getItemByPollId(db, pollId)
+    const item = await newItem(db, { pollId, name: 'test item' })
+    const items = await getItem(db, item)
     assert.equal(items![0].name, 'test item')
   })
   it('can update an item vote', async function() {
     const pollId = await newPoll(db, { title: 'Chicken or Beef?' })
-    await newItem(db, { pollId, name: 'Chicken' })
-    const itemsBefore = await getItemByPollId(db, pollId)
-    const test = await updateItem(db, itemsBefore![0].item, { votes: 1 })
-    const itemsAfter = await getItemByPollId(db, pollId)
+    const item = await newItem(db, { pollId, name: 'Chicken' })
+    const itemsBefore = await getItem(db, item)
+    await updateItem(db, itemsBefore![0].item, { votes: 1 })
+    const itemsAfter = await getItem(db, item)
     assert.equal(itemsAfter![0].votes, 1)
+  })
+  it('can get all items by pollId', async function() {
+    const pollId = await newPoll(db, { title: 'Chicken or Beef?' })
+    await newItem(db, { pollId, name: 'Chicken' })
+    await newItem(db, { pollId, name: 'Beef' })
+    const items = await getItemsByPollId(db, pollId)
+    assert.equal(items![0].name, 'Chicken')
+    assert.equal(items![1].name, 'Beef')
   })
 })

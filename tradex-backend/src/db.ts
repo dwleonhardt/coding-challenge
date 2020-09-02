@@ -37,11 +37,16 @@ export async function newItem(db: Connection, requestData: NewItemRequest): Prom
     name,
     votes: 0,
   }
-  return await db.getRepository(Items).insert(item)
+  const query = await db.getRepository(Items).insert(item)
+  return query.identifiers[0].item
 }
 
-export async function getItemByPollId(db: Connection, pollId: string): Promise<Item[] | undefined> {
+export async function getItemsByPollId(db: Connection, pollId: string): Promise<Item[] | undefined> {
   return await db.getRepository(Items).find({ where: { pollId } })
+}
+
+export async function getItem(db: Connection, item: string): Promise<Item[] | undefined> {
+  return await db.getRepository(Items).find({ where: { item } })
 }
 
 export async function updateItem(db: Connection, item: string, data: Partial<Item>): Promise<any> {

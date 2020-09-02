@@ -34,3 +34,8 @@ export class VoteRequest {
   @IsNumber()
   itemId!: number
 }
+
+export class ItemRequest {
+  @IsUUID()
+  pollId!: string
+}
