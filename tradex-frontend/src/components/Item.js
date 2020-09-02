@@ -7,7 +7,7 @@ export const Item = (props) => {
 
   return (
     <Button variant="outlined" color="default" onClick={console.log('click')}>
-      {`${this.props.item.name} : ${this.props.item.vote}`}
+      {`${props.item.name} : ${props.item.votes}`}
       </Button>
   )
 }
