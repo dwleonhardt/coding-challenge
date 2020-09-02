@@ -11,11 +11,11 @@ import { loadDotEnv } from './utility'
 export async function startExpress(app: express.Application): Promise<any> {
   return new Promise<any>((resolve, reject) => {
     try {
-      const server = app.listen(3000, (err: Error) => {
+      const server = app.listen(5000, (err: Error) => {
         if (err) return reject(err)
         dotenv.config()
         /* tslint:disable-next-line */
-        console.log('App listening http://localhost:3000')
+        console.log('App listening http://localhost:5000')
         resolve(server)
       })
     } catch (error) {
