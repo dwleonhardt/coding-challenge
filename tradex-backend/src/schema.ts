@@ -15,7 +15,7 @@ export class Items implements Item {
   @PrimaryColumn('uuid')
   item!: string
 
-  @Column()
+  @Column('uuid')
   pollId!: string
 
   @Column()
