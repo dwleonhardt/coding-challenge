@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import * as bodyParser from 'body-parser'
-import {deletePoll, getItemByPollId, getPolls, newItem, newPoll, updateItem} from './db'
-import {DeletePollRequest, NewItemRequest, NewPollRequest, VoteRequest} from './types'
+import { deletePoll, getItemByPollId, getPolls, newItem, newPoll, updateItem} from './db'
+import { DeletePollRequest, NewItemRequest, NewPollRequest, VoteRequest} from './types'
 import { Connection } from 'typeorm'
 import { validateBody } from './utility'
 
