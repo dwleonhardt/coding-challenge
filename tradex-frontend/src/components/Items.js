@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 
-export const Poll = (props) => {
+export const Item = (props) => {
   const {} = props;
   console.log(props.poll)
 
@@ -12,7 +12,7 @@ export const Poll = (props) => {
           {props.poll.title}
         </Typography>
         <Typography color="textSecondary" gutterBottom>
-          Test Text
+          Votes
         </Typography>
       </CardContent>
     </Card>
