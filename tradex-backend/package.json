@@ -7,13 +7,14 @@
     "tsc": "node_modules/.bin/tsc",
     "tslint": "./node_modules/.bin/tslint src/*.ts --exclude src/*.d.ts",
     "test": "mocha --require ts-node/register src/test/*-tests.ts",
-    "start": "node src/scripts/start-api.js",
+    "start": "node $NODE_DEBUG_OPTION src/scripts/start-api.js",
     "start:dev": "ts-node src/scripts/start-api.ts",
     "init:db": "node --inspect --require ts-node/register src/scripts/init-db.ts"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
